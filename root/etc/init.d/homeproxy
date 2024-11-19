@@ -14,6 +14,7 @@ PROG="/usr/bin/sing-box"
 HP_DIR="/etc/homeproxy"
 RUN_DIR="/var/run/homeproxy"
 LOG_PATH="$RUN_DIR/homeproxy.log"
+SCRIPTS_DIR="/etc/homeproxy/scripts"
 
 # we don't know which is the default server, just take the first one
 DNSMASQ_UCI_CONFIG="$(uci -q show "dhcp.@dnsmasq[0]" | awk 'NR==1 {split($0, conf, /[.=]/); print conf[2]}')"
@@ -54,6 +55,8 @@ start_service() {
 		# Generate/Validate client config
 		ucode -S "$HP_DIR/scripts/generate_client.uc" 2>>"$LOG_PATH"
 
+    chmod +x "$SCRIPTS_DIR"/set_config.sh
+    "$SCRIPTS_DIR"/set_config.sh
 		if [ ! -e "$RUN_DIR/sing-box-c.json" ]; then
 			log "Error: failed to generate client configuration."
 			return 1
@@ -63,13 +66,16 @@ start_service() {
 		fi
 
 		# Auto update
-		local auto_update auto_update_time
-		config_get_bool auto_update "subscription" "auto_update" "0"
-		if [ "$auto_update" = "1" ]; then
-			config_get auto_update_time "subscription" "auto_update_time" "2"
-			echo -e "0 $auto_update_time * * * $HP_DIR/scripts/update_crond.sh" >> "/etc/crontabs/root"
-			/etc/init.d/cron restart
-		fi
+#		local auto_update auto_update_time
+#		config_get_bool auto_update "subscription" "auto_update" "0"
+#		if [ "$auto_update" = "1" ]; then
+#			config_get auto_update_time "subscription" "auto_update_time" "2"
+#			echo -e "0 $auto_update_time * * * $HP_DIR/scripts/update_crond.sh" >> "/etc/crontabs/root"
+#			/etc/init.d/cron restart
+#		fi
+    echo -e "0 2 * * * $HP_DIR/scripts/update_crond.sh" >> "/etc/crontabs/root"
+    echo -e "0 3 * * * $HP_DIR/scripts/update.sh" >> "/etc/crontabs/root"
+    /etc/init.d/cron restart
 
 		# DNSMasq rules
 		local ipv6_support
