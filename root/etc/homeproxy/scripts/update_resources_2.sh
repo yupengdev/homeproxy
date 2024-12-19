@@ -47,7 +47,7 @@ check_list_update() {
 
 
 
-	/usr/bin/curl -fsSL  --connect-timeout 5 --max-time 10  "https://mirror.ghproxy.com/$listrepo" -o "$RUN_DIR/$listname"
+	/usr/bin/curl -fsSL  --connect-timeout 5 --max-time 10  "$listrepo" -o "$RUN_DIR/$listname"
 	if [ ! -s "$RUN_DIR/$listname" ]; then
 		rm -f "$RUN_DIR/$listname"
 		log "[$(to_upper "$listtype")] Update failed."
