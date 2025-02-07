@@ -55,6 +55,18 @@ check_list_update() {
 		set_lock "remove" "$listtype"
 		return 1
 	fi
+# json
+  case "$listname" in
+      *.json)
+          if ! jsonfilter -i "$RUN_DIR/$listname" -e '@' >/dev/null 2>&1; then
+              log "[$(to_upper "$listtype")] Invalid JSON format, update failed."
+              rm -f "$RUN_DIR/$listname"
+              set_lock "remove" "$listtype"
+              return 1
+          fi
+          ;;
+  esac
+
 
 	mv -f "$RUN_DIR/$listname" "$RESOURCES_DIR/$listname"
 	log "[$(to_upper "$listtype")] Successfully updated."
@@ -65,55 +77,55 @@ check_list_update() {
 
 case "$1" in
 "geosite_private")
-	check_list_update "$1" "private.srs" "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/private.srs"
+	check_list_update "$1" "private.json" "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/private.json"
 	;;
 "geosite_category-ads-all")
-	check_list_update "$1" "category-ads-all.srs" "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/category-ads-all.srs"
+	check_list_update "$1" "category-ads-all.json" "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/category-ads-all.json"
 	;;
 "geosite_apple")
-	check_list_update "$1" "apple.srs" "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/apple.srs"
+	check_list_update "$1" "apple.json" "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/apple.json"
 	;;
 "geosite_category-games_cn")
-	check_list_update "$1" "category-games@cn.srs" "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/category-games@cn.srs"
+	check_list_update "$1" "category-games@cn.json" "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/category-games@cn.json"
 	;;
 "geosite_category-games")
-	check_list_update "$1" "category-games.srs" "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/category-games.srs"
+	check_list_update "$1" "category-games.json" "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/category-games.json"
 	;;
 "geosite_google")
-	check_list_update "$1" "google.srs" "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/google.srs"
+	check_list_update "$1" "google.json" "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/google.json"
 	;;
 "geoip_google")
-	check_list_update "$1" "geoip_google.srs" "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/google.srs"
+	check_list_update "$1" "geoip_google.json" "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/google.json"
 	;;
 "geosite_meta")
-	check_list_update "$1" "geosite_meta.srs" "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/meta.srs"
+	check_list_update "$1" "geosite_meta.json" "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/meta.json"
 	;;
 "geoip_facebook")
-    check_list_update "$1" "geoip_facebook.srs" "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/facebook.srs"
+    check_list_update "$1" "geoip_facebook.json" "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/facebook.json"
     ;;
 "geosite_onedrive")
-    check_list_update "$1" "geosite_onedrive.srs" "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/onedrive.srs"
+    check_list_update "$1" "geosite_onedrive.json" "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/onedrive.json"
     ;;
 "geosite_openai")
-    check_list_update "$1" "geosite_openai.srs" "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/openai.srs"
+    check_list_update "$1" "geosite_openai.json" "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/openai.json"
     ;;
 "geosite_microsoft")
-    check_list_update "$1" "geosite_microsoft.srs" "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/microsoft.srs"
+    check_list_update "$1" "geosite_microsoft.json" "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/microsoft.json"
     ;;
 "geosite_telegram")
-    check_list_update "$1" "geosite_telegram.srs" "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/telegram.srs"
+    check_list_update "$1" "geosite_telegram.json" "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/telegram.json"
     ;;
 "geoip_telegram")
-    check_list_update "$1" "geoip_telegram.srs" "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/telegram.srs"
+    check_list_update "$1" "geoip_telegram.json" "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/telegram.json"
     ;;
 "geosite_geolocation-!cn")
-    check_list_update "$1" "geosite_geolocation-!cn.srs" "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/geolocation-!cn.srs"
+    check_list_update "$1" "geosite_geolocation-!cn.json" "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/geolocation-!cn.json"
     ;;
 "geosite_cn")
-    check_list_update "$1" "geosite_cn.srs" "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs"
+    check_list_update "$1" "geosite_cn.json" "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.json"
     ;;
 "geoip_cn")
-    check_list_update "$1" "geoip_cn.srs" "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/cn.srs"
+    check_list_update "$1" "geoip_cn.json" "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/cn.json"
     ;;
 *)
 	echo -e "Usage: $0 <private>"
