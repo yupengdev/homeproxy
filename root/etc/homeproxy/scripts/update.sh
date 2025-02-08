@@ -15,10 +15,18 @@ if [ ! -s "$TEMP_CONFIG" ]; then
   /usr/bin/curl -fsSL  --connect-timeout 5 --max-time 10 "$CONFIG_URL2" -o "$TEMP_CONFIG"
 fi
 
-if [ -s "$TEMP_CONFIG" ]; then
-    cp -f "$TEMP_CONFIG" "$TARGET_CONFIG"
-    /etc/init.d/homeproxy restart
+if [ ! -s "$TEMP_CONFIG" ]; then
+  echo "updatesh TEMP_CONFIG not exist"
+  return 1
 fi
+
+if ! jsonfilter -i "$TEMP_CONFIG" -e '@' >/dev/null 2>&1; then
+  echo "Invalid JSON format, update failed."
+  return 1
+fi
+
+cp -f "$TEMP_CONFIG" "$TARGET_CONFIG"
+/etc/init.d/homeproxy restart
 
 
 
