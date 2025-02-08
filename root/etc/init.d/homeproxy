@@ -244,7 +244,7 @@ start_service() {
 }
 
 stop_service() {
-	sed -i "/update_crond.sh/d" "/etc/crontabs/root" 2>"/dev/null"
+	sed -i "/update.sh/d" "/etc/crontabs/root" 2>"/dev/null"
 	/etc/init.d/cron restart >"/dev/null" 2>&1
 
 	# Setup firewall
