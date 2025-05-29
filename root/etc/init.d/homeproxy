@@ -66,8 +66,7 @@ start_service() {
 		fi
 
 		# Auto update
-#    echo -e "0 2 * * * $HP_DIR/scripts/update_crond.sh" >> "/etc/crontabs/root"
-    echo -e "0 3 * * * $HP_DIR/scripts/update.sh" >> "/etc/crontabs/root"
+    echo -e "3-8 * * * $HP_DIR/scripts/update.sh" >> "/etc/crontabs/root"
     /etc/init.d/cron restart
 
 		# DNSMasq rules
