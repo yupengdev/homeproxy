@@ -12,6 +12,7 @@ log_time() {
 mkdir -p /var/run/homeproxy
 echo "$(log_time) - start" >> "$LOG_FILE"
 rm -f "$TEMP_CONFIG"
+rm -f "$TARGET_CONFIG"
 
 /usr/bin/curl -fsSL  --connect-timeout 5 --max-time 10 "$CONFIG_URL" -o "$TEMP_CONFIG"
 
