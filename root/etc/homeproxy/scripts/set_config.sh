@@ -11,7 +11,7 @@ mkdir -p /var/run/homeproxy
 if [ ! -s "$TEMP2_CONFIG" ]; then
       cp -f "$TEMP1_CONFIG" "$TARGET_CONFIG"
 else
-      cp -f "$TEMP2_CONFIG" "$TARGET_CONFIG"
+      mv "$TEMP2_CONFIG" "$TARGET_CONFIG"
 fi
 
 /usr/bin/sing-box check -c "$TARGET_CONFIG"

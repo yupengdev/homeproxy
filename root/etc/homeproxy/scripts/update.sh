@@ -18,8 +18,11 @@ rm -f "$TARGET_CONFIG"
 
 # Check if the temporary configuration file exists
 if [ ! -s "$TEMP_CONFIG" ]; then
-    echo "$(log_time) - $TEMP_CONFIG not exist" >> "$LOG_FILE"
-    exit 1
+    echo "$(log_time) - $TEMP_CONFIG not exist restart" >> "$LOG_FILE"
+    rm -f "$TEMP_CONFIG"
+    rm -f "$TARGET_CONFIG"
+    /etc/init.d/homeproxy restart
+    exit 0
 fi
 
 # Check JSON format
